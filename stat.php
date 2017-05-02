@@ -7,46 +7,13 @@
   <link rel="stylesheet" type="text/css" href="" />
 </head>
 <body>
-<p align="center">
-<?php
-  $user1 = $_POST['pname1'];
-  $user2 = $_POST['pname2'];
-  $score1 = 0;
-  $score2 = 0;
-  
 
-  
-  
- ?>
-
- </p>
   <table bordercolor="red" border=2 align="center" >
- <tr><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td></tr>
+ <tr><td height="30" width="30" align= "center">
+ <?php echo $_SESSION['c1']; ?></td><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td></tr>
  <tr><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td></tr>
  <tr><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td><td height="30" width="30" align= "center">?</td></tr>
  </table>
- 
- <table bordercolor="blue" border=2 align="center" >
- <tr><td height="30" width="30" align= "center"><form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>"><input type="submit" name="submit" value="0" /></form></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td></tr>
- <tr><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td></tr>
- <tr><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="0" /></td></tr>
- </table>
- 
-  <table bordercolor="green" border=2 align="center" >
- <tr><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td></tr>
- <tr><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td></tr>
- <tr><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td><td height="30" width="30" align= "center"><input type="submit" name="submit" value="X" /></td></tr>
- </table>
- 
- <?php
- 
-if (isset($_POST['submit']))
-{
-   $score1 = $score1 + 1;
-}
-
-  echo ' '. $user1 . ' ' . $score1 . ':' . $score2 . ' ' . $user2;
-?>
- 
+  
  </body>
 </html>
