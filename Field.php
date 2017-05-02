@@ -11,10 +11,14 @@
 
 session_start();
 
-echo '<a href="field.php?idcell=0&znach=0">Klear</a><br />';
-echo '<a href="field.php?idcell=1&znach=0">Klear</a>';
 
-$_SESSION['cells'][$idcell];
+echo '<a href="field.php?newgame=1">Klear</a>';
+if(empty($_GET['newgame']))
+{
+	$_SESSION['cells'] = array();
+}
+
+
  $idcell = $_GET['idcell'];
  $znach = $_GET['znach'];
  $_SESSION['cells'][$idcell] = $znach;
@@ -25,7 +29,7 @@ $_SESSION['cells'][$idcell];
  <table bordercolor="red" border=2 align="center" >
  <tr><td height="30" width="30" align= "center">
  <?php
- if($_SESSION['cells'][0] == 0)
+ if(empty($_SESSION['cells'][0]))
  {
  echo '<a href="field.php?idcell=0&znach=X">-</a>';
  }
@@ -34,7 +38,7 @@ $_SESSION['cells'][$idcell];
  </td>
  <td height="30" width="30" align= "center">
  <?php
- if($_SESSION['cells'][1] == 0)
+ if(empty($_SESSION['cells'][1]))
  {
  echo '<a href="field.php?idcell=1&znach=O">-</a>';
  }
