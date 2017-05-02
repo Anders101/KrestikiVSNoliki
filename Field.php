@@ -11,7 +11,13 @@
 
 session_start();
 
+$_SESSION['cells'][0] = " ";
+$_SESSION['cells'][1] = " ";
+
 $_SESSION['cells'][$idcell];
+ $idcell = $_GET['idcell'];
+ $znach = $_GET['znach'];
+ $_SESSION['cells'][$idcell] = $znach;
 
 
 ?>
@@ -19,20 +25,20 @@ $_SESSION['cells'][$idcell];
  <table bordercolor="red" border=2 align="center" >
  <tr><td height="30" width="30" align= "center">
  <?php
+ if(empty($_SESSION['cells'][0]))
+ {
  echo '<a href="field.php?idcell=0&znach=X">-</a>';
- $idcell = $_GET['idcell'];
- $znach = $_GET['znach'];
- $_SESSION['cells'][$idcell] = $znach;
- echo $_SESSION['cells'][$idcell];
+ }
+ echo $_SESSION['cells'][0];
 ?>
  </td>
  <td height="30" width="30" align= "center">
  <?php
- echo '<a href="field.php?idcell=1&znach=0">-</a>';
-  $idcell = $_GET['idcell'];
- $znach = $_GET['znach'];
- $_SESSION['cells'][$idcell] = $znach;
- echo $_SESSION['cells'][$idcell];
+ if(empty($_SESSION['cells'][1]))
+ {
+ echo '<a href="field.php?idcell=1&znach=O">-</a>';
+ }
+ echo $_SESSION['cells'][1];
 ?>
  </td>
 </tr>
