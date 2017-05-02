@@ -13,7 +13,7 @@ session_start();
 
 
 echo '<a href="field.php?newgame=1">Klear</a>';
-if(empty($_GET['newgame']))
+if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
 }
