@@ -12,7 +12,7 @@
 session_start();
 
 
-echo '<a href="field.php?newgame=1">Klear</a>';
+echo '<a href="field.php?newgame=1&idcell=11&znachhod=1">Обновить ячейки и установить ход крестиков</a>';
 if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
@@ -21,7 +21,9 @@ if(!empty($_GET['newgame']))
 
  $idcell = $_GET['idcell'];
  $znach = $_GET['znach'];
+ $znachhod = $_GET['znachhod'];
  $_SESSION['cells'][$idcell] = $znach;
+ $_SESSION['cells'][11] = $znachhod;
 
 
 ?>
@@ -29,18 +31,32 @@ if(!empty($_GET['newgame']))
  <table bordercolor="red" border=2 align="center" >
  <tr><td height="30" width="30" align= "center">
  <?php
- if(empty($_SESSION['cells'][0]))
+ if(empty($_SESSION['cells'][0]) && $znachhod == 1)
  {
- echo '<a href="field.php?idcell=0&znach=X">-</a>';
+ echo '<a href="Field.php?idcell=0&znach=X&znachhod=2">-</a>';
  }
- echo $_SESSION['cells'][0];
+ else
+ {
+	if(empty($_SESSION['cells'][0]) && $znachhod == 2)
+	{
+	echo '<a href="Field.php?idcell=0&znach=O&znachhod=1">-</a>';	
+	}
+ }
+echo $_SESSION['cells'][0];
 ?>
  </td>
  <td height="30" width="30" align= "center">
  <?php
- if(empty($_SESSION['cells'][1]))
+ if(empty($_SESSION['cells'][1]) && $znachhod == 1)
  {
- echo '<a href="field.php?idcell=1&znach=O">-</a>';
+ echo '<a href="Field.php?idcell=1&znach=X&znachhod=2">-</a>';
+ }
+ else
+ {
+	if(empty($_SESSION['cells'][1]) && $znachhod == 2)
+	{
+	echo '<a href="Field.php?idcell=1&znach=O&znachhod=1">-</a>';	
+	}
  }
  echo $_SESSION['cells'][1];
  
