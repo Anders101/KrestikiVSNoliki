@@ -20,7 +20,7 @@ if(!empty($_GET['newgame']))
 
 
  $idcell = $_GET['idcell'];
- $znach = $_GET['znach'];
+ $znach = 'X';
  $_SESSION['cells'][$idcell] = $znach;
 
 
@@ -31,7 +31,7 @@ if(!empty($_GET['newgame']))
  <?php
  if(empty($_SESSION['cells'][0]))
  {
- echo '<a href="field.php?idcell=0&znach=X">-</a>';
+ echo '<a href="field.php?idcell=0">-</a>';
  }
  echo $_SESSION['cells'][0];
 ?>
@@ -40,10 +40,19 @@ if(!empty($_GET['newgame']))
  <?php
  if(empty($_SESSION['cells'][1]))
  {
- echo '<a href="field.php?idcell=1&znach=O">-</a>';
+ echo '<a href="field.php?idcell=1">-</a>';
  }
  echo $_SESSION['cells'][1];
  
+?>
+ </td>
+ <td height="30" width="30" align= "center">
+ <?php
+ if(empty($_SESSION['cells'][2]))
+ {
+ echo '<a href="field.php?idcell=2">-</a>';
+ }
+ echo $_SESSION['cells'][2];
 ?>
  </td>
 </tr>
