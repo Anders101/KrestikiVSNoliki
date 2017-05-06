@@ -12,19 +12,33 @@
 session_start();
 
 
-echo '<a href="field.php?newgame=1">Обновить</a>';
+echo '<a href="field.php?newgame=1">Обновить</a><br />';
 if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
 }
-
- $i = 2;
-
+if(empty($_SESSION['hod']))
+{
+	$_SESSION['hod'] = 1;
+}
+ 
+if($_SESSION['Hod'] == 1)
+{
+	$znach = 'X';
+	echo 'Ход крестиков';
+	$_SESSION['Hod'] = 2;
+	$znach = 'O';
+}
+else
+{
+	$znach = 'O';
+	echo 'Ход ноликов';
+	$_SESSION['Hod'] = 1;
+	$znach = 'X';
+}
 
  $idcell = $_GET['idcell'];
- $znach = 'X';
  $_SESSION['cells'][$idcell] = $znach;
-
 
 ?>
 
@@ -32,7 +46,7 @@ if(!empty($_GET['newgame']))
  <tr>
 <?php
 
-$j = 3;
+$j = 9;
 
 for($i = 0; $i < $j; $i++)
 {
@@ -41,7 +55,7 @@ for($i = 0; $i < $j; $i++)
  <?php
  if(empty($_SESSION['cells'][$i]))
  {
- echo '<a href="field.php?idcell='+$i+'">-</a>';
+ echo '<a href="field.php?idcell=' . $i . '">-</a>';
  }
  echo $_SESSION['cells'][$i];
 ?>
@@ -53,12 +67,5 @@ for($i = 0; $i < $j; $i++)
  </td>
 </tr>
  </table>
- 
-<?php
- echo 'Индекс ячейки: ' . $i . '<br />';
-echo 'Индекс третьей ячейки: ' . $i . '<br />'; 
-?>
-
-
  </body>
 </html>
