@@ -17,9 +17,10 @@ if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
 }
-if(empty($_SESSION['hod']))
+
+if($_GET['newgame'] == 1)
 {
-	$_SESSION['hod'] = 1;
+	$_SESSION['Hod'] = 1;
 }
  
 if($_SESSION['Hod'] == 1)
