@@ -38,8 +38,9 @@ else
 	$znach = 'X';
 }
 
- $idcell = $_GET['idcell'];
- $_SESSION['cells'][$idcell] = $znach;
+ $idcella = $_GET['idcella'];
+ $idcellb = $_GET['idcellb'];
+ $_SESSION['cells'][$idcella][$idcellb] = $znach;
 
 ?>
 
@@ -47,25 +48,29 @@ else
  <tr>
 <?php
 
-$j = 9;
+$j = 3;
+$k = 3;
 
-for($i = 0; $i < $j; $i++)
+for($i = 0; $i < $k; $i++)
 {
-?>
+ for($i2 = 0; $i2 < $j; $i2++)
+ {
+ ?>
  <td height="30" width="30" align= "center">
  <?php
- if(empty($_SESSION['cells'][$i]))
+ if(empty($_SESSION['cells'][$i][$i2]))
  {
- echo '<a href="field.php?idcell=' . $i . '">-</a>';
+ echo '<a href="field.php?idcella=' . $i . '&idcellb=' . $i2 . '">-</a>';
  }
- echo $_SESSION['cells'][$i];
+ echo $_SESSION['cells'][$i][$i2];
 ?>
  </td>
 <?php
-	if(($i == 2) || ($i == 5))
+	if($i2 == 2)
 	{
 		echo '</tr><tr><br />';
 	}
+}
 }
 ?>
 
