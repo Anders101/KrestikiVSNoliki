@@ -26,22 +26,20 @@ if($_GET['newgame'] == 1)
  
 if($_SESSION['Hod'] == 1)
 {
-	$znach = 'X';
 	echo 'Ход крестиков';
 	$_SESSION['Hod'] = 2;
 	$znach = 'O';
 }
 else
 {
-	$znach = 'O';
 	echo 'Ход ноликов';
 	$_SESSION['Hod'] = 1;
 	$znach = 'X';
 }
 
- $idcella = $_GET['idcella'];
- $idcellb = $_GET['idcellb'];
- $_SESSION['cells'][$idcella][$idcellb] = $znach;
+ $idcelly = $_GET['idcelly'];
+ $idcellx = $_GET['idcellx'];
+ $_SESSION['cells'][$idcelly][$idcellx] = $znach;
 
 ?>
 
@@ -49,29 +47,29 @@ else
  <tr>
 <?php
 
-$j = 3;
-$k = 3;
+$sizeY = 3;
+$sizeX = 3;
 
-for($i = 0; $i < $k; $i++)
+for($y = 0; $y < $sizeY; $y++)
 {
- for($i2 = 0; $i2 < $j; $i2++)
- {
+    for($x = 0; $x < $sizeX; $x++)
+        {
  ?>
- <td height="30" width="30" align= "center">
+            <td height="30" width="30" align= "center">
  <?php
- if(empty($_SESSION['cells'][$i][$i2]))
- {
- echo '<a href="field.php?idcella=' . $i . '&idcellb=' . $i2 . '">-</a>';
- }
- echo $_SESSION['cells'][$i][$i2];
+            if(empty($_SESSION['cells'][$y][$x]))
+                {
+                    echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '">-</a>';
+                }
+                echo $_SESSION['cells'][$y][$x];
 ?>
  </td>
 <?php
-	if($i2 == 2)
-	{
-		echo '</tr><tr><br />';
-	}
-}
+	    if($x == 2)
+	        {
+		        echo '</tr><tr><br />';
+	        }
+        }
 }
 ?>
 
