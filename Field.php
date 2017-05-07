@@ -26,13 +26,13 @@ if($_GET['newgame'] == 1)
  
 if($_SESSION['Hod'] == 1)
 {
-	echo 'Ход крестиков';
+	echo 'Ход крестиков<br />';
 	$_SESSION['Hod'] = 2;
 	$znach = 'O';
 }
 else
 {
-	echo 'Ход ноликов';
+	echo 'Ход ноликов<br />';
 	$_SESSION['Hod'] = 1;
 	$znach = 'X';
 }
@@ -40,6 +40,210 @@ else
  $idcelly = $_GET['idcelly'];
  $idcellx = $_GET['idcellx'];
  $_SESSION['cells'][$idcelly][$idcellx] = $znach;
+ 
+//Проверка крестиков построчно
+
+$sizeY = 3;
+$sizeX = 3;
+$coutX = 0;
+
+for($y = 0; $y < $sizeY; $y++)
+{
+	for($x = 0; $x < $sizeX; $x++)
+	{
+        if($_SESSION['cells'][$y][$x] == 'X')
+		{
+			$coutX++;
+		}
+		else
+		{
+		    $coutX = 0;
+			$x=3;
+		}
+		if($coutX == 3)
+        {
+	        echo 'Победа крестиков';
+        }
+	}
+}
+
+//Проверка крестиков поколоночно
+
+$sizeY = 3;
+$sizeX = 3;
+$coutX = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+	for($y = 0; $y < $sizeY; $y++)
+	{
+        if($_SESSION['cells'][$y][$x] == 'X')
+		{
+			$coutX++;
+		}
+		else
+		{
+		    $coutX = 0;
+			$y=3;
+		}
+		if($coutX == 3)
+        {
+	        echo 'Победа крестиков';
+        }
+	}
+}
+
+//Проверка ноликов построчно
+
+$sizeY = 3;
+$sizeX = 3;
+$coutO = 0;
+
+for($y = 0; $y < $sizeY; $y++)
+{
+	for($x = 0; $x < $sizeX; $x++)
+	{
+        if($_SESSION['cells'][$y][$x] == 'O')
+		{
+			$coutO++;
+		}
+		else
+		{
+		    $coutO = 0;
+			$x=3;
+		}
+		if($coutO == 3)
+        {
+	        echo 'Победа ноликов';
+        }
+	}
+}
+
+//Проверка ноликов поколоночно
+
+$sizeY = 3;
+$sizeX = 3;
+$coutO = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+	for($y = 0; $y < $sizeY; $y++)
+	{
+        if($_SESSION['cells'][$y][$x] == 'O')
+		{
+			$coutO++;
+		}
+		else
+		{
+		    $coutO = 0;
+			$y=3;
+		}
+		if($coutO == 3)
+        {
+	        echo 'Победа ноликов';
+        }
+	}
+}
+
+//Проверка крестиков по диагонали  с лева на право
+
+$sizeY = 3;
+$sizeX = 3;
+$y = 0;
+$coutX = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+        if($_SESSION['cells'][$y][$x] == 'X')
+		{
+			$coutX++;
+		    $y++;			
+		}
+		else
+		{
+		    $coutX = 0;
+			$x=3;
+		}
+		if($coutX == 3)
+        {
+	        echo 'Победа крестиков';
+        }
+}
+
+//Проверка крестиков по диагонали с права на лево
+
+$sizeY = 3;
+$sizeX = 3;
+$y = 2;
+$coutX = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+        if($_SESSION['cells'][$y][$x] == 'X')
+		{
+			$coutX++;
+		    $y--;			
+		}
+		else
+		{
+		    $coutX = 0;
+			$x=3;
+		}
+		if($coutX == 3)
+        {
+	        echo 'Победа крестиков';
+        }
+}
+
+//Проверка ноликов по диагонали  с лева на право
+
+$sizeY = 3;
+$sizeX = 3;
+$y = 0;
+$coutO = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+        if($_SESSION['cells'][$y][$x] == 'O')
+		{
+			$coutO++;
+		    $y++;			
+		}
+		else
+		{
+		    $coutO = 0;
+			$x=3;
+		}
+		if($coutO == 3)
+        {
+	        echo 'Победа ноликов';
+        }
+}
+
+//Проверка ноликов по диагонали с права на лево
+
+$sizeY = 3;
+$sizeX = 3;
+$y = 2;
+$coutO = 0;
+
+for($x = 0; $x < $sizeX; $x++)
+{
+        if($_SESSION['cells'][$y][$x] == 'O')
+		{
+			$coutO++;
+		    $y--;			
+		}
+		else
+		{
+		    $coutO = 0;
+			$x=3;
+		}
+		if($coutO == 3)
+        {
+	        echo 'Победа ноликов';
+        }
+}
 
 ?>
 
@@ -53,23 +257,23 @@ $sizeX = 3;
 for($y = 0; $y < $sizeY; $y++)
 {
     for($x = 0; $x < $sizeX; $x++)
-        {
+    {
  ?>
-            <td height="30" width="30" align= "center">
+<td height="30" width="30" align= "center">
  <?php
-            if(empty($_SESSION['cells'][$y][$x]))
-                {
-                    echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '">-</a>';
-                }
-                echo $_SESSION['cells'][$y][$x];
+        if(empty($_SESSION['cells'][$y][$x]))
+        {
+            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '">-</a>';
+        }
+        echo $_SESSION['cells'][$y][$x];
 ?>
  </td>
 <?php
 	    if($x == 2)
-	        {
-		        echo '</tr><tr><br />';
-	        }
-        }
+	    {
+		    echo '</tr><tr><br />';
+	    }
+    }
 }
 ?>
 
