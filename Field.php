@@ -49,20 +49,20 @@ $sizeX = 3;
 
 for($y = 0; $y < $sizeY; $y++)
 {
-	$coutX = 0;  
+	$countX = 0;  
 	
 	for($x = 0; $x < $sizeX; $x++)
 	{
         if($_SESSION['cells'][$y][$x] == 'X')
 		{
-			$coutX++;
+			$coutnX++;
 		}
 		else
 		{
-		    $coutX = 0;
+		    $coutnX = 0;
 			$x=3;
 		}
-		if($coutX == $sizeX)
+		if($coutnX == $sizeX)
         {
 	        $_SESSION['win'] = 1;
         }
@@ -74,20 +74,20 @@ for($y = 0; $y < $sizeY; $y++)
 
 for($y = 0; $y < $sizeY; $y++)
 {
-	$coutO = 0;
+	$countO = 0;
 
 	for($x = 0; $x < $sizeX; $x++)
 	{
         if($_SESSION['cells'][$y][$x] == 'O')
 		{
-			$coutO++;
+			$countO++;
 		}
 		else
 		{
-		    $coutO = 0;
+		    $countO = 0;
 			$x=3;
 		}
-		if($coutO == $sizeX)
+		if($countO == $sizeX)
         {
 	        $_SESSION['win'] = 2;
         }
