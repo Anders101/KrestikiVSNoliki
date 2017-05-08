@@ -46,10 +46,11 @@ else
 
 $sizeY = 3;
 $sizeX = 3;
-$coutX = 0;
 
 for($y = 0; $y < $sizeY; $y++)
 {
+	$coutX = 0;  
+	
 	for($x = 0; $x < $sizeX; $x++)
 	{
         if($_SESSION['cells'][$y][$x] == 'X')
@@ -61,7 +62,7 @@ for($y = 0; $y < $sizeY; $y++)
 		    $coutX = 0;
 			$x=3;
 		}
-		if($coutX == 3)
+		if($coutX == $sizeX)
         {
 	        $_SESSION['win'] = 1;
         }
@@ -70,12 +71,11 @@ for($y = 0; $y < $sizeY; $y++)
 
 //Проверка ноликов построчно
 
-$sizeY = 3;
-$sizeX = 3;
-$coutO = 0;
 
 for($y = 0; $y < $sizeY; $y++)
 {
+	$coutO = 0;
+
 	for($x = 0; $x < $sizeX; $x++)
 	{
         if($_SESSION['cells'][$y][$x] == 'O')
@@ -87,7 +87,7 @@ for($y = 0; $y < $sizeY; $y++)
 		    $coutO = 0;
 			$x=3;
 		}
-		if($coutO == 3)
+		if($coutO == $sizeX)
         {
 	        $_SESSION['win'] = 2;
         }
@@ -108,9 +108,6 @@ else if($_SESSION['win'] == 2)
  <table bordercolor="red" border=2 align="center" >
  <tr>
 <?php
-
-$sizeY = 3;
-$sizeX = 3;
 
 for($y = 0; $y < $sizeY; $y++)
 {
