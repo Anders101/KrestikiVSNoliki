@@ -61,7 +61,7 @@ for($y = 0; $y < $sizeY; $y++)
 		{
             break;
 		}
-		if($coutnX == $sizeX)
+		if($countX == $sizeX)
         {
 	        $_SESSION['win'] = 1;
         }
