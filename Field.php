@@ -55,12 +55,11 @@ for($y = 0; $y < $sizeY; $y++)
 	{
         if($_SESSION['cells'][$y][$x] == 'X')
 		{
-			$coutnX++;
+			$countX++;
 		}
 		else
 		{
-		    $coutnX = 0;
-			$x=3;
+            break;
 		}
 		if($coutnX == $sizeX)
         {
@@ -84,8 +83,7 @@ for($y = 0; $y < $sizeY; $y++)
 		}
 		else
 		{
-		    $countO = 0;
-			$x=3;
+            break;
 		}
 		if($countO == $sizeX)
         {
