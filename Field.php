@@ -42,10 +42,11 @@ else
  $idcellx = $_GET['idcellx'];
  $_SESSION['cells'][$idcelly][$idcellx] = $znach;
  
-//Проверка крестиков построчно
-
+//Размеры поля
 $sizeY = 3;
 $sizeX = 3;
+ 
+//Проверка по горизонтали
 
 for($y = 0; $y < $sizeY; $y++)
 {
@@ -54,6 +55,45 @@ for($y = 0; $y < $sizeY; $y++)
     for($x = 0; $x < $sizeX; $x++)
 	{
 		if($x == 0)
+		{
+			$photo = $_SESSION['cells'][$y][$x];
+		}
+		else
+		{
+         if($photo != $_SESSION['cells'][$y][$x])
+		  {
+			$allCellsSame = 0;
+			break;
+		  }
+		}
+	}
+  }
+  if($allCellsSame == 1)
+  {
+  if($photo == 'X')
+  {
+	  $_SESSION['win'] = 1;
+  }
+  else
+  {
+	  if($photo == 'O')
+	  {
+		$_SESSION['win'] = 2;
+	  }		
+  }
+  break;
+  }
+}
+
+//Проверка По вертикали
+
+for($x = 0; $x < $sizeX; $x++)
+{
+  {
+    $allCellsSame = 1;
+    for($y = 0; $y < $sizeY; $y++)
+	{
+		if($y == 0)
 		{
 			$photo = $_SESSION['cells'][$y][$x];
 		}
