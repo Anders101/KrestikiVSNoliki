@@ -49,47 +49,39 @@ $sizeX = 3;
 
 for($y = 0; $y < $sizeY; $y++)
 {
-	$countX = 0;  
-	
-	for($x = 0; $x < $sizeX; $x++)
+  {
+    $allCellsSame = 1;
+    for($x = 0; $x < $sizeX; $x++)
 	{
-        if($_SESSION['cells'][$y][$x] == 'X')
+		if($x == 0)
 		{
-			$countX++;
+			$photo = $_SESSION['cells'][$y][$x];
 		}
 		else
 		{
-            break;
+         if($photo != $_SESSION['cells'][$y][$x])
+		  {
+			$allCellsSame = 0;
+			break;
+		  }
 		}
-		if($countX == $sizeX)
-        {
-	        $_SESSION['win'] = 1;
-        }
 	}
-}
-
-//Проверка ноликов построчно
-
-
-for($y = 0; $y < $sizeY; $y++)
-{
-	$countO = 0;
-
-	for($x = 0; $x < $sizeX; $x++)
-	{
-        if($_SESSION['cells'][$y][$x] == 'O')
-		{
-			$countO++;
-		}
-		else
-		{
-            break;
-		}
-		if($countO == $sizeX)
-        {
-	        $_SESSION['win'] = 2;
-        }
-	}
+  }
+  if($allCellsSame == 1)
+  {
+  if($photo == 'X')
+  {
+	  $_SESSION['win'] = 1;
+  }
+  else
+  {
+	  if($photo == 'O')
+	  {
+		$_SESSION['win'] = 2;
+	  }		
+  }
+  break;
+  }
 }
 
 if($_SESSION['win'] == 1)
