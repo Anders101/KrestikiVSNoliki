@@ -70,17 +70,7 @@ for($y = 0; $y < $sizeY; $y++)
   }
   if($allCellsSame == 1)
   {
-  if($photo == 'X')
-  {
-	  $_SESSION['win'] = 1;
-  }
-  else
-  {
-	  if($photo == 'O')
-	  {
-		$_SESSION['win'] = 2;
-	  }		
-  }
+  champ($photo);
   break;
   }
 }
@@ -109,18 +99,25 @@ for($x = 0; $x < $sizeX; $x++)
   }
   if($allCellsSame == 1)
   {
-  if($photo == 'X')
+  champ($photo);
+  break;
+  }
+}
+
+//Функция отображения победителя
+
+function champ($playerSymbol)
+{ 
+  if($playerSymbol == 'X')
   {
 	  $_SESSION['win'] = 1;
   }
   else
   {
-	  if($photo == 'O')
+	  if($playerSymbol == 'O')
 	  {
 		$_SESSION['win'] = 2;
 	  }		
-  }
-  break;
   }
 }
 
