@@ -120,6 +120,13 @@ function champ($playerSymbol)
   }
 }
 
+//Функция проверки победителя
+
+function chsmpDetect($komod, $sizeX)
+{
+
+}
+
 if($_SESSION['win'] == 1)
 {
 	echo 'Победа Крестиков';
