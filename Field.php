@@ -51,27 +51,7 @@ $sizeX = 3;
 for($y = 0; $y < $sizeY; $y++)
 {
    $komod = $_SESSION['cells'][$y];
-   $allCellsSame = 1;
-   for($x = 0; $x < $sizeX; $x++)
-   {
-        if($x == 0)
-        {
-            $photo = $komod[$x];
-        }
-        else
-        {
-            if($photo != $komod[$x])
-            {
-            $allCellsSame = 0;
-            break;
-            }
-        }
-    }
-    if($allCellsSame == 1)
-    {
-	  champ($photo);
-      break;
-    }
+   champDetect($komod, $sizeX);
 }
 
 //Проверка По вертикали
@@ -122,9 +102,31 @@ function champ($playerSymbol)
 
 //Функция проверки победителя
 
-function chsmpDetect($komod, $sizeX)
-{
+//Функция проверки ячеек
 
+function champDetect($komod, $sizeX)
+{
+	$allCellsSame = 1;
+   for($x = 0; $x < $sizeX; $x++)
+   {
+        if($x == 0)
+        {
+            $photo = $komod[$x];
+        }
+        else
+        {
+            if($photo != $komod[$x])
+            {
+            $allCellsSame = 0;
+            }
+        }
+    }
+    if($allCellsSame == 1)
+    {
+	  champ($photo);
+    }
+	return $allCellsSame;
+	return $photo;
 }
 
 if($_SESSION['win'] == 1)
