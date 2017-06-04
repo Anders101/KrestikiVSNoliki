@@ -50,29 +50,28 @@ $sizeX = 3;
 
 for($y = 0; $y < $sizeY; $y++)
 {
-  {
-    $allCellsSame = 1;
-    for($x = 0; $x < $sizeX; $x++)
-	{
-		if($x == 0)
-		{
-			$photo = $_SESSION['cells'][$y][$x];
-		}
-		else
-		{
-         if($photo != $_SESSION['cells'][$y][$x])
-		  {
-			$allCellsSame = 0;
-			break;
-		  }
-		}
-	}
-  }
-  if($allCellsSame == 1)
-  {
-  champ($photo);
-  break;
-  }
+   $komod = $_SESSION['cells'][$y];
+   $allCellsSame = 1;
+   for($x = 0; $x < $sizeX; $x++)
+   {
+        if($x == 0)
+        {
+            $photo = $komod[$x];
+        }
+        else
+        {
+            if($photo != $komod[$x])
+            {
+            $allCellsSame = 0;
+            break;
+            }
+        }
+    }
+    if($allCellsSame == 1)
+    {
+	  champ($photo);
+      break;
+    }
 }
 
 //Проверка По вертикали
