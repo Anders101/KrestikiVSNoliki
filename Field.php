@@ -70,24 +70,24 @@ function champ($playerSymbol)
 
 //Функция проверки ячеек
 
-function isArraySolid($row, $sizeX)
+function isArraySolid($array, $sizeX)
 {
 	$allCellsSame = 1;
    for($x = 0; $x < $sizeX; $x++)
    {
         if($x == 0)
         {
-            $photo = $row[$x];
+            $symbol = $array[$x];
         }
         else
         {
-            if($photo != $row[$x])
+            if($symbol != $array[$x])
             {
             $allCellsSame = 0;
             }
         }
     }
-    return array($allCellsSame, $photo);
+    return array($allCellsSame, $symbol);
 }
 
 
@@ -95,8 +95,8 @@ function isArraySolid($row, $sizeX)
 
 for($y = 0; $y < $sizeY; $y++)
 {
-   $array = $_SESSION['cells'][$y];
-   list($allCellsSame, $photo) = isArraySolid($array, $sizeX);
+   $row = $_SESSION['cells'][$y];
+   list($allCellsSame, $photo) = isArraySolid($row, $sizeX);
     if($allCellsSame == 1)
     {
 	  champ($photo);
