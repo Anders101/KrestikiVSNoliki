@@ -90,7 +90,6 @@ function isArraySolid($array, $sizeX)
     return array($allCellsSame, $symbol);
 }
 
-
 //Проверка по горизонтали
 
 for($y = 0; $y < $sizeY; $y++)
@@ -103,33 +102,23 @@ for($y = 0; $y < $sizeY; $y++)
     }
 }
 
+//Формирование временного массива
+
+for($x = 0; $x < 3; $x++)
+{
+	$y = 0;
+	$promMass[$x] = $_SESSION['cells'][$x][$y];
+}
+
 //Проверка По вертикали
 
 for($x = 0; $x < $sizeX; $x++)
 {
-  {
-    $allCellsSame = 1;
-    for($y = 0; $y < $sizeY; $y++)
-	{
-		if($y == 0)
-		{
-			$photo = $_SESSION['cells'][$y][$x];
-		}
-		else
-		{
-         if($photo != $_SESSION['cells'][$y][$x])
-		  {
-			$allCellsSame = 0;
-			break;
-		  }
-		}
-	}
-  }
-  if($allCellsSame == 1)
-  {
-  champ($photo);
-  break;
-  }
+    list($allCellsSame, $photo) = isArraySolid($promMass, $sizeX);
+    if($allCellsSame == 1)
+    {
+	  champ($photo);
+    }
 }
 
 
