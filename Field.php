@@ -117,6 +117,26 @@ for($x = 0; $x < $sizeX; $x++)
     }
 }
 
+//Проверка по диагонали слева направо
+
+	for($x = 0;$x < $sizeX;$x++)
+	{
+		$y = $x;
+		$promMass[$y] = $_SESSION['cells'][$y][$x];
+	    list($allCellsSame, $photo) = isArraySolid($promMass, $sizeX);
+        champ($allCellsSame, $photo);
+	}
+
+//Проверка диагонали с права на лево
+$x = 2;
+    for($y = 0;$y < $sizeY;$y++)
+	{
+		$promMass[$y] = $_SESSION['cells'][$y][$x];
+	    list($allCellsSame, $photo) = isArraySolid($promMass, $sizeX);
+        champ($allCellsSame, $photo);
+		$x--;
+	}
+
 
 if($_SESSION['win'] == 1)
 {
