@@ -52,18 +52,21 @@ $sizeX = 3;
 
 //Функция отображения победителя
 
-function champ($playerSymbol)
+function champ($countIf, $playerSymbol)
 { 
-  if($playerSymbol == 'X')
+  if($countIf == 1)
   {
+    if($playerSymbol == 'X')
+    {
 	  $_SESSION['win'] = 1;
-  }
-  else
-  {
-	  if($playerSymbol == 'O')
-	  {
-		$_SESSION['win'] = 2;
-	  }		
+    }
+    else
+      {
+	    if($playerSymbol == 'O')
+	    {
+		  $_SESSION['win'] = 2;
+	    }		
+      }
   }
 }
 
@@ -96,14 +99,8 @@ for($y = 0; $y < $sizeY; $y++)
 {
    $row = $_SESSION['cells'][$y];
    list($allCellsSame, $photo) = isArraySolid($row, $sizeX);
-    if($allCellsSame == 1)
-    {
-	  champ($photo);
-    }
+   champ($allCellsSame, $photo);
 }
-
-//Формирование временного массива
-
 
 
 //Проверка По вертикали
@@ -116,7 +113,7 @@ for($x = 0; $x < $sizeX; $x++)
     list($allCellsSame, $photo) = isArraySolid($promMass, $sizeX);
     if($allCellsSame == 1)
     {
-	  champ($photo);
+	  champ($allCellsSame, $photo);
     }
 }
 
