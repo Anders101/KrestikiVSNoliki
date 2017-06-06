@@ -104,16 +104,15 @@ for($y = 0; $y < $sizeY; $y++)
 
 //Формирование временного массива
 
-for($x = 0; $x < 3; $x++)
-{
-	$y = 0;
-	$promMass[$x] = $_SESSION['cells'][$x][$y];
-}
+
 
 //Проверка По вертикали
-
 for($x = 0; $x < $sizeX; $x++)
 {
+	for($y = 0; $y < $sizeY; $y++)
+    {
+	$promMass[$y] = $_SESSION['cells'][$y][$x];
+    }
     list($allCellsSame, $photo) = isArraySolid($promMass, $sizeX);
     if($allCellsSame == 1)
     {
