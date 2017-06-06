@@ -45,13 +45,62 @@ else
 //Размеры поля
 $sizeY = 3;
 $sizeX = 3;
- 
+
+////////////////////////////////////
+//////////////ФУНКЦИИ///////////////
+////////////////////////////////////
+
+//Функция отображения победителя
+
+function champ($playerSymbol)
+{ 
+  if($playerSymbol == 'X')
+  {
+	  $_SESSION['win'] = 1;
+  }
+  else
+  {
+	  if($playerSymbol == 'O')
+	  {
+		$_SESSION['win'] = 2;
+	  }		
+  }
+}
+
+
+//Функция проверки ячеек
+
+function champDetect($komod, $sizeX)
+{
+	$allCellsSame = 1;
+   for($x = 0; $x < $sizeX; $x++)
+   {
+        if($x == 0)
+        {
+            $photo = $komod[$x];
+        }
+        else
+        {
+            if($photo != $komod[$x])
+            {
+            $allCellsSame = 0;
+            }
+        }
+    }
+    return array($allCellsSame, $photo);
+}
+
+
 //Проверка по горизонтали
 
 for($y = 0; $y < $sizeY; $y++)
 {
    $komod = $_SESSION['cells'][$y];
-   champDetect($komod, $sizeX);
+   list($allCellsSame, $photo) = champDetect($komod, $sizeX);
+    if($allCellsSame == 1)
+    {
+	  champ($photo);
+    }
 }
 
 //Проверка По вертикали
@@ -83,51 +132,6 @@ for($x = 0; $x < $sizeX; $x++)
   }
 }
 
-//Функция отображения победителя
-
-function champ($playerSymbol)
-{ 
-  if($playerSymbol == 'X')
-  {
-	  $_SESSION['win'] = 1;
-  }
-  else
-  {
-	  if($playerSymbol == 'O')
-	  {
-		$_SESSION['win'] = 2;
-	  }		
-  }
-}
-
-//Функция проверки победителя
-
-//Функция проверки ячеек
-
-function champDetect($komod, $sizeX)
-{
-	$allCellsSame = 1;
-   for($x = 0; $x < $sizeX; $x++)
-   {
-        if($x == 0)
-        {
-            $photo = $komod[$x];
-        }
-        else
-        {
-            if($photo != $komod[$x])
-            {
-            $allCellsSame = 0;
-            }
-        }
-    }
-    if($allCellsSame == 1)
-    {
-	  champ($photo);
-    }
-	return $allCellsSame;
-	return $photo;
-}
 
 if($_SESSION['win'] == 1)
 {
