@@ -70,7 +70,7 @@ function champ($playerSymbol)
 
 //Функция проверки ячеек
 
-function champDetect($komod, $sizeX)
+function isArraySolid($komod, $sizeX)
 {
 	$allCellsSame = 1;
    for($x = 0; $x < $sizeX; $x++)
@@ -96,7 +96,7 @@ function champDetect($komod, $sizeX)
 for($y = 0; $y < $sizeY; $y++)
 {
    $komod = $_SESSION['cells'][$y];
-   list($allCellsSame, $photo) = champDetect($komod, $sizeX);
+   list($allCellsSame, $photo) = isArraySolid($komod, $sizeX);
     if($allCellsSame == 1)
     {
 	  champ($photo);
