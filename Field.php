@@ -87,6 +87,7 @@ function isArraySolid($array, $sizeX)
             if($symbol != $array[$x])
             {
             $allCellsSame = 0;
+			break;
             }
         }
     }
