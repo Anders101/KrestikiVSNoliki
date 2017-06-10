@@ -13,7 +13,7 @@ session_start();
 <body>
 <?php
 
-echo '<a href="field.php?newgame=1">Обновить</a><br />';
+echo '<a href="field.php?newgame=1">Новая игра</a><br />';
 if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
@@ -45,6 +45,7 @@ else
 //Размеры поля
 $sizeY = 3;
 $sizeX = 3;
+
 
 ////////////////////////////////////
 //////////////ФУНКЦИИ///////////////
@@ -127,7 +128,7 @@ for($x = 0; $x < $sizeX; $x++)
     champ($allCellsSame, $photo);
 
 //Проверка диагонали справа налево
-$x = 2;
+$x = ($sizeX - 1);
     for($y = 0;$y < $sizeY;$y++)
 	{
 		$promMass[$y] = $_SESSION['cells'][$y][$x];
@@ -159,7 +160,7 @@ for($y = 0; $y < $sizeY; $y++)
  ?>
 <td height="30" width="30" align= "center">
  <?php
-        if(empty($_SESSION['cells'][$y][$x]))
+        if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
         {
             echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '">-</a>';
         }
@@ -167,7 +168,7 @@ for($y = 0; $y < $sizeY; $y++)
 ?>
  </td>
 <?php
-	    if($x == 2)
+	    if($x == ($sizeX - 1))
 	    {
 		    echo '</tr><tr><br />';
 	    }
