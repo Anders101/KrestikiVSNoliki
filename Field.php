@@ -158,7 +158,7 @@ for($y = 0; $y < $sizeY; $y++)
     for($x = 0; $x < $sizeX; $x++)
     {
  ?>
-<td height="30" width="30" align= "center">
+<td height="30" width="30" align= "center" bgcolor="#E61F24">
  <?php
         if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
         {
