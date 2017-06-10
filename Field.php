@@ -158,11 +158,11 @@ for($y = 0; $y < $sizeY; $y++)
     for($x = 0; $x < $sizeX; $x++)
     {
  ?>
-<td height="30" width="30" align= "center" bgcolor="#E61F24">
+<td height="30" width="30" align= "center" >
  <?php
         if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
         {
-            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '"><IMG src="images/button.jpg"></a>';
+            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '"><div style="width:30px; height:30px;"></div></a>';
         }
         echo $_SESSION['cells'][$y][$x];
 ?>
