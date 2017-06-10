@@ -162,7 +162,7 @@ for($y = 0; $y < $sizeY; $y++)
  <?php
         if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
         {
-            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '">-</a>';
+            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '"><IMG src="images/button.jpg"></a>';
         }
         echo $_SESSION['cells'][$y][$x];
 ?>
