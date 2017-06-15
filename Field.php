@@ -13,7 +13,7 @@ session_start();
 <body>
 <?php
 
-echo '<a href="field.php?newgame=1">Новая игра</a><br />';
+echo '<a href="Field.php?newgame=1">Новая игра</a><br />';
 if(!empty($_GET['newgame']))
 {
 	$_SESSION['cells'] = array();
@@ -153,6 +153,8 @@ else if($_SESSION['win'] == 2)
  <tr>
 <?php
 
+//Отображение игрового поля
+
 for($y = 0; $y < $sizeY; $y++)
 {
     for($x = 0; $x < $sizeX; $x++)
@@ -162,7 +164,7 @@ for($y = 0; $y < $sizeY; $y++)
  <?php
         if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
         {
-            echo '<a href="field.php?idcelly=' . $y . '&idcellx=' . $x . '"><div style="width:30px; height:30px;"></div></a>';
+            echo '<a href="Field.php?idcelly=' . $y . '&idcellx=' . $x . '"><div style="width:30px; height:30px;"></div></a>';
         }
         echo $_SESSION['cells'][$y][$x];
 ?>
