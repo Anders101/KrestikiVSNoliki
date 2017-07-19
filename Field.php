@@ -1,4 +1,10 @@
 <?php
+
+define('DBBASE', 'gamedata');
+define('DBHOST', 'localhost');
+define('DBUSER', 'root');
+define('DBPASS', ''); 
+
 session_start();
 ?>
 
@@ -12,6 +18,57 @@ session_start();
 </head>
 <body>
 <?php
+
+include 'db.cls.php';
+include 'exception.cls.php';
+
+$user_aut = $_POST['name'];
+
+if(!empty($_POST['name']))
+{
+	$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
+    if(!empty($user))
+    {		
+    $_SESSION['USER'] = $user_aut;
+	}
+	else
+	{	
+	  echo 'Ошибка id,попробуйте снова.</br>';
+	}
+}
+
+
+$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
+$usern = $user[pl_name];
+
+if(!empty($_GET['exit']))
+{
+	$_SESSION['USER'] = array();
+}
+
+
+if(!empty($_SESSION['USER']))
+{
+	echo 'Здравствуйте   ';
+    print_r($usern);	
+    echo '</br>';
+}
+else
+{
+	echo   '<form action="field.php" method="post">
+       <p>Ваше имя: <input type="text" name="name" /></p>
+       <p><input type="submit" value="Войти"/></p>
+       </form>';
+	exit;
+}
+
+if(!empty($_SESSION['USER']))
+{
+echo '<a href="field.php?exit=1">Выход</a><br />';
+}
+
+echo '</br>';
+
 
 echo '<a href="Field.php?newgame=1">Новая игра</a><br />';
 if(!empty($_GET['newgame']))
