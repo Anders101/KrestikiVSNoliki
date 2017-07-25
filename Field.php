@@ -26,20 +26,16 @@ $user_aut = $_POST['name'];
 
 if(!empty($_POST['name']))
 {
-	$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
+	$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $_POST['name']));
     if(!empty($user))
     {		
-    $_SESSION['USER'] = $user_aut;
+    $_SESSION['USER'] = $_POST['name'];
 	}
 	else
 	{	
 	  echo 'Ошибка id,попробуйте снова.</br>';
 	}
 }
-
-
-$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
-$usern = $user[pl_name];
 
 if(!empty($_GET['exit']))
 {
@@ -49,6 +45,9 @@ if(!empty($_GET['exit']))
 
 if(!empty($_SESSION['USER']))
 {
+	$user_aut = $_SESSION['USER'];
+	$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
+    $usern = $user[pl_name];
 	echo 'Здравствуйте   ';
     print_r($usern);	
     echo '</br>';
@@ -61,6 +60,119 @@ else
        </form>';
 	exit;
 }
+
+//Запрос на добавление строки
+
+
+
+//Запрос к таблице Move
+
+
+
+if($_REQUEST['push'] == 1)
+{	
+ $idcelly = $_GET['idcelly'];
+ $idcellx = $_GET['idcellx'];
+ $idPlayerMain = $_GET['idplayer'];
+ $IdGameNumber = $_GET['idgame'];
+ $idMove_number = $_GET['idhod'];
+ 
+$moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id AND mv_cellx=@cellx AND mv_celly=@celly", array('id' => $IdGameNumber, 'cellx' => $idcellx,'celly' => $idcelly));
+   
+   if(empty($moveInfo))
+     {
+        $result = XDB::I()->Insert('move', array (
+        'mv_player_id' => $idPlayerMain,
+        'mv_celly' => $idcelly,
+        'mv_cellx' => $idcellx,
+        'mv_game_id' => $IdGameNumber,
+        'mv_number' => $idMove_number
+        )
+        );
+    }
+	echo 'Ид игрока: ' . $idPlayerMain . '</br>';
+    echo 'Координата У: ' . $idcelly . '</br>';
+    echo 'Координата Х: ' . $idcellx . '</br>';
+    echo 'Номер игры: ' . $IdGameNumber . '</br>';
+    echo 'Номер хода: ' . $idMove_number . '</br>';
+}
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+////////Извлечение данных из баз.//////////////////////////
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+//Запрос к таблице Game
+
+$gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('id' => $user_aut));
+//print_r($gameInfo);
+echo '</br>';
+
+$gameNumber = $gameInfo['gm_id'];
+$gmSymbol1 =  $gameInfo['gm_symbol1'];
+$gmSymbol2 =  $gameInfo['gm_symbol2'];
+$player1 = $gameInfo['gm_player1_id'];
+$player2 = $gameInfo['gm_player2_id'];
+echo 'Номер игры: ' . $gameNumber;
+echo '</br>';
+echo 'Ид Первого игрока: ' . $player1;
+echo '</br>';
+echo 'Ид Второго игрока: ' . $player2;
+echo '</br>';
+
+$moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id", array('id' => $gameNumber));
+
+//Определение хода
+
+$move_number = count($moveInfo);
+echo '</br>';
+echo 'Число ходов: ' . $move_number . '</br>';
+echo '</br>';
+
+//Информация хода
+
+if($move_number % 2 == 0)
+{
+	echo '</br>';
+	echo 'Ход крестиков,нолики ожидайте.';
+	echo '</br>';
+}
+else
+{   
+    echo '</br>';
+	echo 'Ход ноликов,крестики ожидайте.';
+	echo '</br>';
+}
+
+//Смена хода
+
+if($move_number % 2 == 0)
+{
+	$playerMain = $player1;
+	$mainSymbol = $gmSymbol1;
+
+}
+else
+{   
+    if($move_number % 2 != 0)
+	{
+    $playerMain = $player2;
+	$mainSymbol = $gmSymbol2;
+	}
+}
+	
+
+	
+	
+echo 'Значение playerMain: ' . $playerMain;
+echo '</br>';
+echo 'Значение user_aut: ' . $user_aut;
+echo '</br>';
+
+//print_r($moveInfo);
+echo '</br>';
+
 
 if(!empty($_SESSION['USER']))
 {
@@ -81,7 +193,8 @@ if($_GET['newgame'] == 1)
 	$_SESSION['Hod'] = 1;
 	$_SESSION['win'] = 0;
 }
- 
+
+/* 
 if($_SESSION['Hod'] == 1)
 {
 	echo 'Ход крестиков<br />';
@@ -94,10 +207,30 @@ else
 	$_SESSION['Hod'] = 1;
 	$znach = 'X';
 }
+*/
+//Формирование заполненных ячеек поля
 
- $idcelly = $_GET['idcelly'];
- $idcellx = $_GET['idcellx'];
- $_SESSION['cells'][$idcelly][$idcellx] = $znach;
+for($i = 0;$i < $move_number;$i++)
+{
+	if($i % 2 != 0)
+{
+	$mainSymbol = $gmSymbol2;
+}
+else
+{   
+	$mainSymbol = $gmSymbol1;
+}
+$celly = $moveInfo[$i]['mv_celly'];
+$cellx = $moveInfo[$i]['mv_cellx'];
+$gameMassive['cells'][$celly][$cellx] = $mainSymbol;
+//print_r($gameMassive);
+//echo '</br>';
+//echo '</br>';
+}
+
+// $idcelly = $_GET['idcelly'];
+// $idcellx = $_GET['idcellx'];
+// $_SESSION['cells'][$idcelly][$idcellx] = $znach;
  
 //Размеры поля
 $sizeY = 3;
@@ -219,11 +352,11 @@ for($y = 0; $y < $sizeY; $y++)
  ?>
 <td height="30" width="30" align= "center" >
  <?php
-        if(empty($_SESSION['cells'][$y][$x]) && ($_SESSION['win'] == 0))
+        if(empty($gameMassive['cells'][$y][$x]) && ($playerMain == $user_aut))// && ($_SESSION['win'] == 0))
         {
-            echo '<a href="Field.php?idcelly=' . $y . '&idcellx=' . $x . '"><div style="width:30px; height:30px;"></div></a>';
+            echo '<a href="Field.php?idplayer=' . $playerMain . '&idcelly=' . $y . '&idcellx=' . $x . '&idgame=' . $gameNumber . '&idhod=' . $move_number . '&push=1"><div style="width:30px; height:30px;"></div></a>';
         }
-        echo $_SESSION['cells'][$y][$x];
+        echo $gameMassive['cells'][$y][$x];
 ?>
  </td>
 <?php
