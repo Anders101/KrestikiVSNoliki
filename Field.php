@@ -139,14 +139,13 @@ $moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id A
 //Запрос к таблице Game
 
 $gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('id' => $user_aut));
-//print_r($gameInfo);
-echo '</br>';
 
 $gameNumber = $gameInfo['gm_id'];
 $gmSymbol1 = $gameInfo['gm_symbol1'];
 $gmSymbol2 = $gameInfo['gm_symbol2'];
 $player1 = $gameInfo['gm_player1_id'];
 $player2 = $gameInfo['gm_player2_id'];
+echo '<br/>';
 echo 'Номер игры: ' . $gameNumber;
 echo '</br>';
 echo 'Ид Первого игрока: ' . $player1;
@@ -159,7 +158,6 @@ $moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id",
 //Определение хода
 
 $move_number = count($moveInfo);
-echo '</br>';
 echo 'Число ходов: ' . $move_number . '</br>';
 echo '</br>';
 
@@ -167,13 +165,11 @@ echo '</br>';
 
 if($move_number % 2 == 0)
 {
-	echo '</br>';
 	echo 'Ход крестиков,нолики ожидайте.';
 	echo '</br>';
 }
 else
 {   
-    echo '</br>';
 	echo 'Ход ноликов,крестики ожидайте.';
 	echo '</br>';
 }
@@ -193,19 +189,7 @@ else
     $playerMain = $player2;
 	$mainSymbol = $gmSymbol2;
 	}
-}
-	
-
-	
-	
-echo 'Значение playerMain: ' . $playerMain;
-echo '</br>';
-echo 'Значение user_aut: ' . $user_aut;
-echo '</br>';
-
-//print_r($moveInfo);
-echo '</br>';
-
+}	
 
 if(!empty($_SESSION['USER']))
 {
@@ -214,33 +198,7 @@ echo '<a href="field.php?exit=1">Выход</a><br />';
 
 echo '</br>';
 
-/*
-echo '<a href="Field.php?newgame=1">Новая игра</a><br />';
-if(!empty($_GET['newgame']))
-{
-	$_SESSION['cells'] = array();
-}
 
-if($_GET['newgame'] == 1)
-{
-	$_SESSION['Hod'] = 1;
-	$_SESSION['win'] = 0;
-}
-
- 
-if($_SESSION['Hod'] == 1)
-{
-	echo 'Ход крестиков<br />';
-	$_SESSION['Hod'] = 2;
-	$znach = 'O';
-}
-else
-{
-	echo 'Ход ноликов<br />';
-	$_SESSION['Hod'] = 1;
-	$znach = 'X';
-}
-*/
 //Формирование заполненных ячеек поля
 
 for($i = 0;$i < $move_number;$i++)
@@ -256,15 +214,8 @@ else
 $celly = $moveInfo[$i]['mv_celly'];
 $cellx = $moveInfo[$i]['mv_cellx'];
 $gameMassive['cells'][$celly][$cellx] = $mainSymbol;
-//print_r($gameMassive);
-//echo '</br>';
-//echo '</br>';
 }
 
-// $idcelly = $_GET['idcelly'];
-// $idcellx = $_GET['idcellx'];
-// $_SESSION['cells'][$idcelly][$idcellx] = $znach;
- 
 //Размеры поля
 $sizeY = 3;
 $sizeX = 3;
@@ -274,7 +225,6 @@ $sizeX = 3;
 //////////////ФУНКЦИИ///////////////
 ////////////////////////////////////
 
-//print_r($gameMassive['cells']);
 
 //Функция отображения победителя
 
@@ -309,13 +259,6 @@ else
 }
 
 //Забиваем в базу победителя
-/*
-$someCount = $_GET['someCount'];
-$gameMassive['win'] = $someCount;
-echo '<br/>';
-echo 'значение $gameMassive: ' . $gameMassive['win'] . '<br />';
-echo '<br />';
-*/
 
 if($gameMassive['win'] == 1)
 {
@@ -328,9 +271,6 @@ else
 		XDB::I()->Update('game', $gameNumber, array('gm_winner' => $player2), 'gm_id');
 	}
 }
-
-//echo '<a href="field.php?idgame=4&someCount=">Установить победителя.</a>';
-
 
 //Функция проверки ячеек
 
@@ -401,19 +341,13 @@ $x = ($sizeX - 1);
 $gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE gm_id=@id", array('id' => $gameNumber));
 $winner = $gameInfo['gm_winner'];
 
-echo 'Значение gameNumber: ' . $gameNumber;
-echo '<br/>';
-echo 'Значение Winner: ' . $winner;
-
 if((!empty($winner)) && ($winner == $player1))
 {
 	echo 'Крестики победили!!!';
-	//exit;
 }
 else if((!empty($winner)) && ($winner != $player1))
 {
 	echo 'Нолики победили!';
-	//exit;
 }
 
 ?>
