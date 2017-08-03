@@ -40,7 +40,7 @@ if(!empty($_GET['exit']))
 	$_SESSION['USER'] = array();
 }
 
-
+//Вывод сообщения об успешном входе или формы входа
 if(!empty($_SESSION['USER']))
 {
 	$userAut = $_SESSION['USER'];
@@ -71,18 +71,15 @@ $result = XDB::I()->Insert('player', array (
 );
 }
 
+//Вывод сообщения об успешной регистрации
 if(!empty($userNameR))
 {
 	$playeridReg = XDB::I()->LastInsertId();
+	echo '<br/>';
 	echo 'Поздравляем вас: ' . $userNameR . ' с успешной регистрацией.Ваш Id: ' . $playeridReg . ' используйте его,чтобы авторизоваться.<br/>';
 }
-/*
-if(!empty($userId
-{
-	echo 'Поздравляем вас: ' . $userNameR . ' с успешной регистрацией.Ваш Id: ' . $userId . ' используйте его,чтобы авторизоваться.<br/>';
-}
-*/
 
+//Вывод формы регистрации
 if(!empty($_GET['regist']))
 {
 echo   '<form action="index.php" method="post">
@@ -154,9 +151,10 @@ $idCreatedGame = XDB::I()->LastInsertId();
 if(!empty($idCreatedGame))
 {
 echo 'Id созданной игры: ' . $idCreatedGame;
+echo '<br/>';
 echo 'Игра создана,ожидайте подключения второго игрока.<br/>';
 echo '<br/>';
-echo '<a href="field.php">Перейти на игровое поле.</a>';
+echo '<a href="field.php?idgame=' . $idCreatedGame . '">Перейти на игровое поле.</a>';
 }
 
 //Присоединение к игре
@@ -179,12 +177,18 @@ if(!empty($userAut))
 		echo '<br/>';
 	}
 }
+if($gameArray != 0)
+{
 echo '<br/>';
 echo 'Чтобы войти в игру разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
 echo '<br/>';
-echo '<a href="field.php">На поле</a>';
+echo '<a href="field.php?idgame=' . $idPassGame . '">На поле</a>';
+}
 }
 
+
+
+//Поиск доступных игр
 if(!empty($_GET['searchgame']))
 {
 $gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id!=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
@@ -197,22 +201,49 @@ if(!empty($userAut))
 {
 	for($x = 0; $x < $gameArray; $x++)
 	{
-		if(empty($gameInfo))
-		{
-			echo 'Нет доступных игр для подключения';
-			break;
-		}
 		$idPassGame = $gameInfo[$x]['gm_id'];
 		echo 'Id игры: ' . $idPassGame;
 		echo '<br/>';
 	}
 }
+if($gameArray != 0)
+{
 echo '<br/>';
 echo 'Чтобы войти в игру разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
 echo '<br/>';
 echo '<a href="index.php?enjoy=1">Присоединиться</a>';
 }
+}
 
+//Проверка уже запущеных игр с двумя игроками
+if(!empty($_GET['searchgame']))
+{
+$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid OR gm_player2_id=@usid) AND gm_winner<1", array('usid' => $userAut));
+$gameArray = count($gameInfo);
+echo '<br/>';
+echo '<br/>';
+echo 'Активные игры в которых вы участвуете: ' . $gameArray;
+echo '<br/>';
+if(!empty($userAut))
+{
+	for($x = 0; $x < $gameArray; $x++)
+	{
+		$idPassGame = $gameInfo[$x]['gm_id'];
+		echo 'Id игры: ' . $idPassGame;
+		echo '<br/>';
+	}
+}
+if($gameArray != 0)
+{
+echo '<br/>';
+echo 'Чтобы войти в игру разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
+echo '<br/>';
+echo '<a href="field.php?idgame=' . $idPassGame . '">Присоединиться</a>';
+}
+}
+
+
+//Подключение к существующей игре
 if(!empty($_GET['enjoy']))
 {
 		echo   '<form action="index.php" method="post">
