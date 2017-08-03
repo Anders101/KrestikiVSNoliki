@@ -27,7 +27,7 @@ if(!empty($_POST['playerid']))
 	$userInfo = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $_POST['playerid']));
     if(!empty($userInfo))
     {		
-    $_SESSION['USER'] = $_POST['playerid'];
+		$_SESSION['USER'] = $_POST['playerid'];
 	}
 	else
 	{	
@@ -41,6 +41,11 @@ if(!empty($_GET['exit']))
 }
 
 //Вывод сообщения об успешном входе или формы входа
+if(empty($_SESSION['USER']))
+{
+	echo '<a href="index.php?enter=1">Вход</a>';
+}
+
 if(!empty($_SESSION['USER']))
 {
 	$userAut = $_SESSION['USER'];
@@ -50,18 +55,27 @@ if(!empty($_SESSION['USER']))
     echo $userName;	
     echo '</br>';
 }
-else
+
+if(!empty($_GET['enter']))
 {
     echo   '<form action="index.php" method="post">
        <p>Ваш Id: <input type="text" name="playerid" /></p>
        <p><input type="submit" value="Войти"/></p>
        </form>';
+	echo '<a href="index.php">Отмена</a>';
+	echo '<br/>';
 }
-echo '<a href="index.php?regist=1">Зарегистрироваться</a>';
+
+if(empty($_SESSION['USER']))
+{
+	echo '<br/>';
+	echo '<a href="index.php?regist=1">Зарегистрироваться</a>';
+}
+
+
+
 
 //Регистрация
-
-
 if(!empty($_POST['name']))
 {
 $userNameR = $_POST['name'];
@@ -86,13 +100,10 @@ echo   '<form action="index.php" method="post">
        <p>Ваше имя: <input type="text" name="name" /></p>
        <p><input type="submit" value="Зарегестрироваться"/></p>
        </form>';
-echo '<br/>';
-
-
+	   echo '<a href="index.php">Отмена</a>';
+	   echo '<br/>';
 }
-echo '<br/>';
-	echo '<a href="index.php?exit=1">Выход</a><br />';
-echo '<br/>';
+
 
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////
@@ -102,16 +113,13 @@ echo '<br/>';
 
 if(!empty($_SESSION['USER']))
 {
-echo '<br/>';
-echo '<a href="index.php?creategame=1">Новая игра</a>';
+echo '<a href="index.php?creategame=1">Создать игру</a>';
 echo '<br/>';
 }
 
 if(!empty($_SESSION['USER']))
 {
-echo '<br/>';
 echo '<a href="index.php?searchgame=1">Поиск активных игр.</a>';
-echo '<br/>';
 }
 
 //Создание Новой Игры
@@ -123,7 +131,8 @@ if(!empty($_GET['creategame']))
 	   <p><input type="radio" name="symbol" value="O" >Играть O</p>
        <p><input type="submit" value="Создать Игру"/></p>
        </form>';
-	echo '<br/>';
+	   echo '<a href="index.php">Отмена</a>';
+	   echo '<br/>';
 }
 
 $playeridcr = $_POST['playeridcr'];
@@ -224,6 +233,7 @@ echo '<br/>';
 echo '<br/>';
 echo 'Активные игры в которых вы участвуете: ' . $gameArray;
 echo '<br/>';
+
 if(!empty($userAut))
 {
 	for($x = 0; $x < $gameArray; $x++)
@@ -233,6 +243,7 @@ if(!empty($userAut))
 		echo '<br/>';
 	}
 }
+
 if($gameArray != 0)
 {
 echo '<br/>';
@@ -259,6 +270,16 @@ if(!empty($_POST['gameidenjoy']))
 	XDB::I()->Update('game', $gameidenjoy, array('gm_player2_id' => $userAut), 'gm_id');
 }
 
+if(!empty($_GET['searchgame']))
+{
+echo '<br/>';
+echo '<a href="index.php">Отмена</a>';
+}
 
+if(!empty($_SESSION['USER']))
+{
+echo '<br/>';
+echo '<a href="index.php?exit=1">Выход</a><br />';
+}
 
 ?>
