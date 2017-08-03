@@ -109,6 +109,7 @@ echo '<br/>';
 echo '<a href="index.php?creategame=1">Новая игра</a>';
 echo '<br/>';
 }
+
 if(!empty($_SESSION['USERI']))
 {
 echo '<br/>';
@@ -129,13 +130,22 @@ if(!empty($_GET['creategame']))
 }
 
 $playeridcr = $_POST['playeridcr'];
-$symbol = $_POST['symbol'];
+$symbolPlayer = $_POST['symbol'];
+if($symbolPlayer == 'X')
+{
+	$secondSymbol = 'O';
+}
+else
+{
+	$secondSymbol = 'X';
+}
 
 if(!empty($_POST['playeridcr']))
 {
 $result = XDB::I()->Insert('game', array (
 'gm_player1_id' => $playeridcr,
-'gm_symbol1' => $symbol
+'gm_symbol1' => $symbolPlayer,
+'gm_symbol2' => $secondSymbol
 )
 );
 }
@@ -152,7 +162,7 @@ echo '<a href="field.php">Перейти на игровое поле.</a>';
 //Присоединение к игре
 
 $searchGame = 0;
-$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('id' => $searchGame));
+$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
 if(empty($gameInfo))
 {
 	echo 'Запрос вернул пустой результат.<br/>';
@@ -162,23 +172,70 @@ if(empty($gameInfo))
 if(!empty($_GET['searchgame']))
 {
 $gameArray = count($gameInfo);
-echo 'Найдено доступных для подключения игр: ' . $gameArray;
+echo 'Созданные вами игры: ' . $gameArray;
 echo '<br/>';
 if(!empty($userAut))
 {
 	for($x = 0; $x < $gameArray; $x++)
 	{
-		$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('id' => $searchGame));
+		$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid AND gm_player2_id=@id) AND gm_winner<1", array( 'usid' => $userAut, 'id' => $searchGame));
 		$idPassGame = $gameInfo[$x]['gm_id'];
 		echo 'Id игры: ' . $idPassGame;
 		echo '<br/>';
 	}
 }
 echo '<br/>';
-echo 'Чтобы присоединиться к игре разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
+echo 'Чтобы войти в игру разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
 echo '<br/>';
 echo '<a href="field.php">На поле</a>';
 }
+
+if(!empty($_GET['searchgame']))
+{
+	$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id!=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
+$gameArray = count($gameInfo);
+echo '<br/>';
+echo '<br/>';
+echo 'Доступные для подключения игры: ' . $gameArray;
+echo '<br/>';
+if(!empty($userAut))
+{
+	for($x = 0; $x < $gameArray; $x++)
+	{
+		if(empty($gameInfo))
+		{
+			echo 'Нет доступных игр для подключения';
+			break;
+		}
+		$idPassGame = $gameInfo[$x]['gm_id'];
+		echo 'Id игры: ' . $idPassGame;
+		echo '<br/>';
+	}
+}
+echo '<br/>';
+echo 'Чтобы войти в игру разлогинтесь,перейдите по ссылке и используйте один из предложенных id';
+echo '<br/>';
+echo '<a href="index.php?enjoy=1">Присоединиться</a>';
+}
+
+if(!empty($_GET['enjoy']))
+{
+		echo   '<form action="index.php" method="post">
+       <p>Id игры: <input type="text" name="gameidenjoy" /></p>
+       <p><input type="submit" value="Присоединиться"/></p>
+       </form>';
+	echo '<br/>';
+}
+
+if(!empty($_POST['gameidenjoy']))
+{
+	$gameidenjoy = $_POST['gameidenjoy'];
+	XDB::I()->Update('game', $gameidenjoy, array('gm_player2_id' => $userAut), 'gm_id');
+}
+
+
+echo '<br/>';
+echo 'UserAut: ' . $userAut;
 
 
 ?>
