@@ -27,7 +27,7 @@ if(!empty($_POST['playerid']))
 	$userInfo = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $_POST['playerid']));
     if(!empty($userInfo))
     {		
-    $_SESSION['USERI'] = $_POST['playerid'];
+    $_SESSION['USER'] = $_POST['playerid'];
 	}
 	else
 	{	
@@ -37,13 +37,13 @@ if(!empty($_POST['playerid']))
 
 if(!empty($_GET['exit']))
 {
-	$_SESSION['USERI'] = array();
+	$_SESSION['USER'] = array();
 }
 
 
-if(!empty($_SESSION['USERI']))
+if(!empty($_SESSION['USER']))
 {
-	$userAut = $_SESSION['USERI'];
+	$userAut = $_SESSION['USER'];
 	$userInfo = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $userAut));
     $userName = $userInfo['pl_name'];
 	echo 'Здравствуйте   ';
@@ -62,10 +62,10 @@ echo '<a href="index.php?regist=1">Зарегистрироваться</a>';
 //Регистрация
 
 
-if(!empty($_POST['namereg']))
+if(!empty($_POST['name']))
 {
 $userNameR = $_POST['name'];
-$result = XDB::I()->Insert('playerreg', array (
+$result = XDB::I()->Insert('player', array (
 'pl_name' => $userNameR
 )
 );
@@ -86,7 +86,7 @@ if(!empty($userId
 if(!empty($_GET['regist']))
 {
 echo   '<form action="index.php" method="post">
-       <p>Ваше имя: <input type="text" name="namereg" /></p>
+       <p>Ваше имя: <input type="text" name="name" /></p>
        <p><input type="submit" value="Зарегестрироваться"/></p>
        </form>';
 echo '<br/>';
@@ -103,14 +103,14 @@ echo '<br/>';
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////
 
-if(!empty($_SESSION['USERI']))
+if(!empty($_SESSION['USER']))
 {
 echo '<br/>';
 echo '<a href="index.php?creategame=1">Новая игра</a>';
 echo '<br/>';
 }
 
-if(!empty($_SESSION['USERI']))
+if(!empty($_SESSION['USER']))
 {
 echo '<br/>';
 echo '<a href="index.php?searchgame=1">Поиск активных игр.</a>';
@@ -163,22 +163,17 @@ echo '<a href="field.php">Перейти на игровое поле.</a>';
 
 $searchGame = 0;
 $gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
-if(empty($gameInfo))
-{
-	echo 'Запрос вернул пустой результат.<br/>';
-}
-
 
 if(!empty($_GET['searchgame']))
 {
 $gameArray = count($gameInfo);
+$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid AND gm_player2_id=@id) AND gm_winner<1", array( 'usid' => $userAut, 'id' => $searchGame));
 echo 'Созданные вами игры: ' . $gameArray;
 echo '<br/>';
 if(!empty($userAut))
 {
 	for($x = 0; $x < $gameArray; $x++)
 	{
-		$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id=@usid AND gm_player2_id=@id) AND gm_winner<1", array( 'usid' => $userAut, 'id' => $searchGame));
 		$idPassGame = $gameInfo[$x]['gm_id'];
 		echo 'Id игры: ' . $idPassGame;
 		echo '<br/>';
@@ -192,7 +187,7 @@ echo '<a href="field.php">На поле</a>';
 
 if(!empty($_GET['searchgame']))
 {
-	$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id!=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
+$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE (gm_player1_id!=@usid AND gm_player2_id=@id) AND gm_winner<1", array('usid' => $userAut, 'id' => $searchGame));
 $gameArray = count($gameInfo);
 echo '<br/>';
 echo '<br/>';
@@ -233,9 +228,6 @@ if(!empty($_POST['gameidenjoy']))
 	XDB::I()->Update('game', $gameidenjoy, array('gm_player2_id' => $userAut), 'gm_id');
 }
 
-
-echo '<br/>';
-echo 'UserAut: ' . $userAut;
 
 
 ?>
