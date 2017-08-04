@@ -51,6 +51,7 @@ if(!empty($_SESSION['USER']))
 	echo 'Здравствуйте   ';
     print_r($usern);	
     echo '</br>';
+	echo '  Ваш id: ' . $user_aut;
 }
 else
 {
@@ -175,12 +176,12 @@ else
 }
 
 //Смена хода
-
+if($gmSymbol1 == 'X')
+{
 if($move_number % 2 == 0)
 {
 	$playerMain = $player1;
 	$mainSymbol = $gmSymbol1;
-
 }
 else
 {   
@@ -190,6 +191,24 @@ else
 	$mainSymbol = $gmSymbol2;
 	}
 }	
+}
+
+if($gmSymbol1 == 'O')
+{
+if($move_number % 2 == 0)
+{
+	$playerMain = $player2;
+	$mainSymbol = $gmSymbol2;
+}
+else
+{   
+    if($move_number % 2 != 0)
+	{
+    $playerMain = $player1;
+	$mainSymbol = $gmSymbol1;
+	}
+}	
+}
 
 if(!empty($_SESSION['USER']))
 {
@@ -200,7 +219,8 @@ echo '</br>';
 
 
 //Формирование заполненных ячеек поля
-
+if($gmSymbol1 == 'X')
+{
 for($i = 0;$i < $move_number;$i++)
 {
 	if($i % 2 != 0)
@@ -214,6 +234,25 @@ else
 $celly = $moveInfo[$i]['mv_celly'];
 $cellx = $moveInfo[$i]['mv_cellx'];
 $gameMassive['cells'][$celly][$cellx] = $mainSymbol;
+}
+}
+
+if($gmSymbol1 == 'O')
+{
+for($i = 0;$i < $move_number;$i++)
+{
+	if($i % 2 != 0)
+{
+	$mainSymbol = $gmSymbol1;
+}
+else
+{   
+	$mainSymbol = $gmSymbol2;
+}
+$celly = $moveInfo[$i]['mv_celly'];
+$cellx = $moveInfo[$i]['mv_cellx'];
+$gameMassive['cells'][$celly][$cellx] = $mainSymbol;
+}
 }
 
 //Размеры поля
