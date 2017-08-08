@@ -49,9 +49,11 @@ if(!empty($_SESSION['USER']))
 	$user = XDB::I()->FetchDataRow("SELECT pl_name FROM player WHERE pl_id=@id", array('id' => $user_aut));
     $usern = $user['pl_name'];
 	echo 'Здравствуйте   ';
-    print_r($usern);	
+    echo $usern;	
     echo '</br>';
 	echo '  Ваш id: ' . $user_aut;
+	echo '</br>';
+	echo '</br>';
 }
 else
 {
@@ -139,13 +141,16 @@ $moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id A
 
 //Запрос к таблице Game
 
-$gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('id' => $user_aut));
+//$gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1 AND", array('id' => $user_aut));
+$gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE gm_id=@idgame AND (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('idgame' => $idGameEnter, 'id' => $user_aut));
 
-$gameNumber = $gameInfo['gm_id'];
-$gmSymbol1 = $gameInfo['gm_symbol1'];
-$gmSymbol2 = $gameInfo['gm_symbol2'];
-$player1 = $gameInfo['gm_player1_id'];
-$player2 = $gameInfo['gm_player2_id'];
+print_r($gameInfo);
+
+$gameNumber = $gameInfo[0]['gm_id'];
+$gmSymbol1 = $gameInfo[0]['gm_symbol1'];
+$gmSymbol2 = $gameInfo[0]['gm_symbol2'];
+$player1 = $gameInfo[0]['gm_player1_id'];
+$player2 = $gameInfo[0]['gm_player2_id'];
 echo '<br/>';
 echo 'Номер игры: ' . $gameNumber;
 echo '</br>';
