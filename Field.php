@@ -144,7 +144,7 @@ $moveInfo = XDB::I()->FetchCollection("SELECT * FROM move WHERE mv_game_id=@id A
 //$gameInfo = XDB::I()->FetchDataRow("SELECT * FROM game WHERE (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1 AND", array('id' => $user_aut));
 $gameInfo = XDB::I()->FetchCollection("SELECT * FROM game WHERE gm_id=@idgame AND (gm_player1_id=@id OR gm_player2_id=@id) AND gm_winner<1", array('idgame' => $idGameEnter, 'id' => $user_aut));
 
-print_r($gameInfo);
+//print_r($gameInfo);
 
 $gameNumber = $gameInfo[0]['gm_id'];
 $gmSymbol1 = $gameInfo[0]['gm_symbol1'];
